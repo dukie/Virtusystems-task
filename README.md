@@ -1,7 +1,7 @@
 Virtusystems-task
 =================
 
-"Currency exchange rate" web application with CBR SOAP service functionality.
+"Currency exchange rate" web application with CBR SOAP client functionality.
 
 MSSQL + EF + C#(Basic  Web server) + ExtJS(Front-End)
 
