@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CurrencyDataModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="CurrencyDataModelStoreContainer">
+    <EntitySet Name="CurrencyRefSet" EntityType="CurrencyDataModel.Store.CurrencyRefSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CurrencyRateSet" EntityType="CurrencyDataModel.Store.CurrencyRateSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="CurrencyRefCurrencyRate" Association="CurrencyDataModel.Store.CurrencyRefCurrencyRate">
+      <End Role="CurrencyRef" EntitySet="CurrencyRefSet" />
+      <End Role="CurrencyRate" EntitySet="CurrencyRateSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="CurrencyRefSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="code" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="nominal" Type="decimal" Nullable="false" Precision="15" Scale="2" />
+    <Property Name="numcode" Type="int" Nullable="false" />
+    <Property Name="charcode" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CurrencyRateSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="rate" Type="decimal" Nullable="false" Precision="15" Scale="4" />
+    <Property Name="date" Type="datetime" Nullable="false" />
+    <Property Name="CurrencyRef_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="CurrencyRefCurrencyRate">
+    <End Role="CurrencyRef" Type="CurrencyDataModel.Store.CurrencyRefSet" Multiplicity="1" />
+    <End Role="CurrencyRate" Type="CurrencyDataModel.Store.CurrencyRateSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CurrencyRef">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CurrencyRate">
+        <PropertyRef Name="CurrencyRef_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="CurrencyDataModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" >
+        <EntityContainer Name="CurrencyDataModelContainer1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CurrencyRefSet" EntityType="CurrencyDataModel.CurrencyRef" />
+          <EntitySet Name="CurrencyRateSet" EntityType="CurrencyDataModel.CurrencyRate" />
+          <AssociationSet Name="CurrencyRefCurrencyRate" Association="CurrencyDataModel.CurrencyRefCurrencyRate">
+            <End Role="CurrencyRef" EntitySet="CurrencyRefSet" />
+            <End Role="CurrencyRate" EntitySet="CurrencyRateSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="CurrencyRef">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="code" Nullable="false" />
+          <Property Name="name" Nullable="false" Type="String" />
+          <NavigationProperty Name="CurrencyRate" Relationship="CurrencyDataModel.CurrencyRefCurrencyRate" FromRole="CurrencyRef" ToRole="CurrencyRate" />
+          <Property Type="Decimal" Name="nominal" Nullable="false" Scale="2" Precision="15" />
+          <Property Type="Int32" Name="numcode" Nullable="false" />
+          <Property Type="String" Name="charcode" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CurrencyRate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Decimal" Name="rate" Nullable="false" Precision="15" Scale="4" />
+          <Property Type="DateTime" Name="date" Nullable="false" />
+          <NavigationProperty Name="CurrencyRef" Relationship="CurrencyDataModel.CurrencyRefCurrencyRate" FromRole="CurrencyRate" ToRole="CurrencyRef" />
+        </EntityType>
+        <Association Name="CurrencyRefCurrencyRate">
+          <End Type="CurrencyDataModel.CurrencyRef" Role="CurrencyRef" Multiplicity="1" />
+          <End Type="CurrencyDataModel.CurrencyRate" Role="CurrencyRate" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CurrencyDataModelStoreContainer" CdmEntityContainer="CurrencyDataModelContainer1">
+    <EntitySetMapping Name="CurrencyRefSet">
+      <EntityTypeMapping TypeName="IsTypeOf(CurrencyDataModel.CurrencyRef)">
+        <MappingFragment StoreEntitySet="CurrencyRefSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="code" ColumnName="code" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="nominal" ColumnName="nominal" />
+          <ScalarProperty Name="numcode" ColumnName="numcode" />
+          <ScalarProperty Name="charcode" ColumnName="charcode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CurrencyRateSet">
+      <EntityTypeMapping TypeName="IsTypeOf(CurrencyDataModel.CurrencyRate)">
+        <MappingFragment StoreEntitySet="CurrencyRateSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="rate" ColumnName="rate" />
+          <ScalarProperty Name="date" ColumnName="date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="CurrencyRefCurrencyRate" TypeName="CurrencyDataModel.CurrencyRefCurrencyRate" StoreEntitySet="CurrencyRateSet">
+      <EndProperty Name="CurrencyRef">
+        <ScalarProperty Name="Id" ColumnName="CurrencyRef_Id" />
+      </EndProperty>
+      <EndProperty Name="CurrencyRate">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Default" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
